@@ -1,0 +1,82 @@
+rules:
+- id: prefect_failed_authentication
+  name: Prefect flow failed due to authentication error
+  description: Detects authentication failures in automation flows.
+  enabled: true
+  priority: 100
+  event_type: flow.failed
+  conditions:
+    all:
+    - field: logs
+      operator: contains
+      value: '401'
+    - field: logs
+      operator: contains_any
+      value:
+      - Unauthorized
+      - authentication
+      - invalid token
+  action:
+    type: recommend
+    message: Check credentials, API tokens and secret configuration before retrying
+      the flow.
+    confidence: high
+- id: prefect_failed_connection_timeout
+  name: Prefect flow failed due to connection timeout
+  description: Detects timeout errors in automation flows.
+  enabled: true
+  priority: 90
+  event_type: flow.failed
+  conditions:
+    any:
+    - field: logs
+      operator: contains
+      value: timeout
+    - field: logs
+      operator: contains
+      value: ConnectionError
+    - field: logs
+      operator: contains
+      value: Max retries exceeded
+  action:
+    type: recommend
+    message: Check network connectivity, target endpoint availability and retry policy.
+    confidence: medium
+- id: onboarding_missing_required_parameters
+  name: Onboarding task blocked by missing parameters
+  description: Detects onboarding tasks that cannot continue because required parameters
+    are missing.
+  enabled: true
+  priority: 80
+  event_type: onboarding.task.blocked
+  conditions:
+    any:
+    - field: reason
+      operator: contains
+      value: missing parameter
+    - field: reason
+      operator: contains
+      value: required value not provided
+  action:
+    type: block
+    message: Keep task blocked until all required onboarding parameters are provided.
+    confidence: high
+- id: promoted_mem_001
+  name: Prefect flow failed due to invalid API token
+  description: This rule candidate was generated from operational memory after repeated
+    successful resolutions.
+  enabled: true
+  priority: 70
+  event_type: flow.failed
+  conditions:
+    any:
+    - field: logs
+      operator: contains
+      value: 401 Unauthorized
+    - field: logs
+      operator: contains
+      value: invalid token
+  action:
+    type: recommend
+    message: Refresh the API token and update the secret used by the flow.
+    confidence: high

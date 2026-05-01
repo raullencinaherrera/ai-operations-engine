@@ -4,5 +4,6 @@ version = "0.1.0"
 description = "AI-assisted operations engine with deterministic rules, operational memory and LLM reasoning."
 requires-python = ">=3.10"
 dependencies = [
-    "pyyaml"
+    "pyyaml",
+    "google-genai"
 ]

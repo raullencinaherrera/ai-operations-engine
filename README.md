@@ -25,6 +25,8 @@ Operational Memory
   ↓
 Decision Engine
   ↓
+Context Retrieval (Documentation Agent)
+  ↓
 AI Reasoning (only if needed)
   ↓
 Human Validation
@@ -90,17 +92,51 @@ Combines rules and memory to produce an operational decision.
 
 ---
 
-### 5. Reasoning Layer (Mock Implementation)
+### 5. Context Retrieval (Documentation Agent)
+
+Retrieves relevant operational knowledge before AI reasoning is performed.
+
+- Searches structured documentation (Markdown, runbooks, etc.)
+- Extracts relevant snippets based on the event context
+- Provides enriched context for reasoning
+- Prevents sending raw errors directly to the AI
+
+This component acts as a **specialized agent responsible for documentation navigation**.
+
+---
+
+### 6. Multi-Agent Architecture
+
+The system separates responsibilities across specialized agents instead of using a single monolithic AI component.
+
+- **Event Reasoning Agent** → processes events and orchestrates the flow  
+- **Documentation Context Agent** → retrieves relevant operational knowledge  
+- **Reasoning Engine** → analyzes the enriched context  
+
+This design improves:
+
+- scalability  
+- control  
+- reasoning accuracy  
+- governance  
+
+---
+
+### 7. Reasoning Layer (LLM Integration)
 
 Provides AI-assisted analysis when deterministic logic is insufficient.
 
 - Prompt-based reasoning design  
-- Mock reasoning engine (no external LLM yet)  
-- Designed for future integration with LLM providers (e.g., Gemini, OpenAI)  
+- Gemini LLM integration for real reasoning  
+- Structured JSON output for safe parsing and automation  
+- Fallback to mock reasoning when no LLM is configured  
+
+The system does not send raw errors directly to the LLM.  
+It first retrieves relevant operational documentation and builds an enriched context before reasoning.
 
 ---
 
-### 6. Feedback Loop & Learning
+### 8. Feedback Loop & Learning
 
 Tracks whether applied solutions were successful.
 
@@ -109,7 +145,7 @@ Tracks whether applied solutions were successful.
 
 ---
 
-### 7. Controlled Rule Promotion
+### 9. Controlled Rule Promotion
 
 Promotes frequently successful solutions into deterministic rules.
 
@@ -199,6 +235,8 @@ No strong rule match
   ↓
 Weak memory match
   ↓
+Context retrieved from documentation
+  ↓
 AI reasoning triggered
   ↓
 Suggested cause and action
@@ -212,6 +250,8 @@ If repeated → candidate rule
 
 ```text
 engine/
+├── agents/         # Multi-agent orchestration (event + documentation)
+├── context/        # Context retrieval system
 ├── events/         # Event normalization
 ├── rules/          # Deterministic rule engine + governance
 ├── memory/         # Operational memory
@@ -221,7 +261,7 @@ engine/
 ```
 ## Current Limitations
 
-- No real LLM integration yet (mock reasoning only)  
+- LLM integration currently supports Gemini only (no multi-provider support yet) 
 - No persistence beyond local files (JSONL/YAML)  
 - No API layer  
 - No UI for approvals or monitoring  
@@ -238,6 +278,7 @@ engine/
 - Add observability and feedback scoring  
 - Add UI for rule approval and governance  
 - Add policy-based automation controls  
+- Add multi-provider LLM support (OpenAI, Azure, etc.)
 
 ---
 
@@ -245,7 +286,7 @@ engine/
 
 This project is not a simple AI demo.
 
-It is an exploration of how to build **AI-assisted operational systems** where:
+It is an exploration of how to build AI-assisted operational systems using a **multi-agent architecture** where:
 
 - automation is deterministic when possible  
 - AI is used when necessary  

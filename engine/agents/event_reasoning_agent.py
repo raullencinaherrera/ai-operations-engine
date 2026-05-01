@@ -2,7 +2,7 @@ from engine.agents.models import ContextRequest
 from engine.events.normalizer import normalize_event
 from engine.memory.store import load_memory
 from engine.orchestrator.decision import build_decision
-from engine.reasoning.mock_reasoner import analyze_with_mock_reasoner
+from engine.reasoning.reasoner import analyze_event
 from engine.reasoning.models import ReasoningRequest
 from engine.rules.loader import load_rules
 
@@ -54,7 +54,7 @@ Documentation context:
             known_memory_matches=len(decision.memory_matches),
         )
 
-        reasoning_result = analyze_with_mock_reasoner(reasoning_request)
+        reasoning_result = analyze_event(reasoning_request)
 
         return {
             "type": "ai_reasoning",

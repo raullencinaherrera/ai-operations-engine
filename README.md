@@ -4,7 +4,7 @@ AI Operations Engine is an experimental platform designed to bring artificial in
 
 It combines deterministic automation, operational memory, and AI-assisted reasoning to reduce operational noise, improve decision-making, and progressively learn from validated solutions.
 
-The system is designed to **prioritize safety, control, and auditability**, ensuring that automation evolves in a governed and predictable way.
+The system is designed to **prioritize safety, control, and auditability**, ensuring that automation evolves in a governed and predictable way and does not send raw errors directly to the LLM. It first retrieves relevant operational documentation and builds an enriched context before reasoning.
 
 ---
 

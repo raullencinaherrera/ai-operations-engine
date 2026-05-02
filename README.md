@@ -303,7 +303,103 @@ Memory updated
 If repeated success → rule candidate
 ```
 ---
+## AI Operations Control Plane
 
+
+Instead, it provides **visibility, governance, and insight** into how the system performs in real-world scenarios.
+
+---
+
+### Purpose
+
+The control plane answers key questions such as:
+
+- How many solutions were promoted to deterministic rules  
+- Which solutions fail most often  
+- Which error types are most common  
+- Where documentation is missing or insufficient  
+- Which rules are most effective  
+- How often AI reasoning is required  
+- How often the system remains unresolved  
+
+---
+
+### Architecture Role
+
+```text
+AI Operations Engine
+        ↓
+Execution Plan Generator
+        ↓
+Execution Layer (Rundeck)
+        ↓
+Execution Feedback
+        ↓
+Analytics / Control Plane
+
+```
+### Data Collection
+
+The system emits structured trace events for each processed operation:
+```text
+{
+  "event_id": "evt_001",
+  "event_type": "flow.failed",
+  "rule_matched": true,
+  "memory_matched": true,
+  "documentation_found": false,
+  "llm_used": false,
+  "execution_status": "success",
+  "promoted_to_rule": false
+}
+```
+These events are stored and later analyzed.
+
+### Metrics
+
+The control plane calculates key indicators:
+```text
+Rule match rate
+Memory reuse rate
+LLM usage rate
+Documentation coverage
+Execution success rate
+Promotion rate
+Unresolved event rate
+Reporting
+```
+#### The system can generate structured reports (e.g. Markdown):
+```text
+operational summaries
+top error types
+most used rules
+documentation gaps
+```
+#### This enables:
+```text
+continuous improvement
+system tuning
+governance and auditing
+Key Principle
+```
+The system must not only automate operations — it must observe and evaluate itself.
+
+### Why This Matters
+
+#### Without this layer:
+```text
+there is no visibility into system behavior
+failures cannot be analyzed at scale
+AI usage cannot be controlled
+```
+#### With this layer:
+```text
+decisions are measurable
+learning is auditable
+improvements are data-driven
+```
+#### This transforms the system into a controlled, observable, and continuously improving AI platform.
+---
 ## 🔧 Project Structure
 
 

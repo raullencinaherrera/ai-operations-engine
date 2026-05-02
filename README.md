@@ -31,6 +31,10 @@ AI Reasoning (only if needed)
   ↓
 Human Validation
   ↓
+Execution (External Orchestrator)
+  ↓
+Execution Feedback
+  ↓
 Learning & Rule Promotion
 ```
 ## Key Principles
@@ -154,12 +158,44 @@ Promotes frequently successful solutions into deterministic rules.
 ```text
 Memory → Repeated Success → Rule Candidate → Governance → Human Approval → Rule
 ```
+
+### 10. Execution Feedback (Closed-Loop Learning)
+
+The system incorporates real execution results into the learning process.
+
+Instead of relying only on theoretical reasoning, the engine evaluates whether the applied solution actually worked in practice.
+
+**Flow:**
+
+```text
+Execution (Rundeck / Prefect)
+  ↓
+Execution Result (status + logs)
+  ↓
+Deterministic Feedback Classification
+  ↓
+Memory Update (success / failure)
+  ↓
+Rule Promotion Candidate (if consistent success)
+
 ## Rule Governance & Safety Controls
+```
 
-The system includes a governance layer to prevent uncontrolled growth of deterministic rules and unsafe automation.
+### Key principles:
 
-Before any rule is promoted, it must pass a strict validation process.
+Feedback is processed deterministically whenever possible
+AI is only used if execution results are ambiguous
+Learning is based on real-world outcomes, not assumptions
 
+This ensures that:
+```text
+the system improves based on validated solutions
+incorrect assumptions are not reinforced
+automation evolves safely over time
+```
+#### This transforms the system from a decision engine into a self-improving operational platform.
+
+---
 ### Governance Checks
 
 - Duplicate rule detection: no repeated IDs
@@ -196,7 +232,11 @@ This layer ensures that the system remains:
 
 
 ```text
-Operational Memory
+Execution Result
+  ↓
+Feedback Classification
+  ↓
+Operational Memory Update
   ↓
 Repeated Success
   ↓
@@ -243,6 +283,25 @@ Suggested cause and action
   ↓
 If repeated → candidate rule
 
+### Execution Feedback Flow
+
+```text
+Prefect flow fails
+  ↓
+Decision generated
+  ↓
+Execution plan created
+  ↓
+Rundeck job executed
+  ↓
+Execution result collected
+  ↓
+Feedback classified (success / failure)
+  ↓
+Memory updated
+  ↓
+If repeated success → rule candidate
+```
 ---
 
 ## 🔧 Project Structure
@@ -292,6 +351,8 @@ It is an exploration of how to build AI-assisted operational systems using a **m
 - AI is used when necessary  
 - learning is controlled and validated  
 - governance ensures long-term stability  
+
+### The system does not only make decisions — it learns from real execution outcomes.
 
 ---
 

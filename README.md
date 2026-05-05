@@ -324,6 +324,34 @@ The control plane answers key questions such as:
 
 ---
 
+### AI Operations Dashboard
+
+The control plane can generate a lightweight HTML dashboard from trace events.
+
+The dashboard provides visibility into:
+
+- total processed events
+- rule match rate
+- memory reuse rate
+- documentation coverage
+- LLM usage rate
+- execution success rate
+- promotion rate
+- unresolved rate
+- top event types
+- most used rules
+- documentation gaps
+
+This makes the behavior of the AI Operations Engine measurable and auditable.
+
+```text
+analytics_store.jsonl
+  ↓
+metrics
+  ↓
+dashboard.html
+```
+---
 ### Architecture Role
 
 ```text
